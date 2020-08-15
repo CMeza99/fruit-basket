@@ -2,15 +2,9 @@
 """Tests for `fruit_basket` package."""
 from collections import Counter
 from pathlib import Path
+from pprint import pprint
 
-from fruit_basket.main import (
-    countbychar,
-    oldestfruit,
-    readfiledata,
-    sumallfruit,
-    sumeachfruit,
-    totaltypes,
-)
+from fruit_basket.main import FruitBasket, report
 
 
 class TestFruitBasket:
@@ -18,12 +12,14 @@ class TestFruitBasket:
 
     def test_fruit_basket_main_000(self):
         """First test run."""
-        result = readfiledata(Path(__file__).parent.joinpath("data", "given.csv"))
-        assert totaltypes(result) == 5
-        assert sumallfruit(result) == 22
-        assert sumeachfruit(result)["apple"] == 5
-        assert sumeachfruit(result)["orange"] == 6
-        assert oldestfruit(result) == ({"pineapple", "orange"}, 6)
-        assert countbychar(result)["apple"] == Counter(
+        basket = FruitBasket(Path(__file__).parent.joinpath("data", "given.csv"))
+        print("Inventory Data:")
+        pprint(dict(basket.inventory))
+        assert basket.total_fruittypes == 5
+        assert basket.total_fruits == 22
+        for k, v in {"apple": 5, "orange": 6}.items():
+            assert basket.totals_byfruit[k] == v
+        assert basket.oldestfruits == ({"pineapple", "orange"}, 6)
+        assert basket.totals_bychar["apple"] == Counter(
             {("red", "sweet"): 3, ("yellow", "sweet"): 1, ("green", "tart"): 1},
         )

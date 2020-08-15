@@ -1,11 +1,12 @@
 """Main definitions of classes and functions."""
 import csv
 import logging
-from collections import defaultdict, Counter
+from collections import Counter, defaultdict, deque
 from dataclasses import dataclass, field
 from itertools import chain
+from os import PathLike
 from pathlib import Path
-from typing import Mapping, Sequence, Tuple
+from typing import Mapping, Sequence, Tuple, Union
 
 
 # Note: Setting compare and hash to false does not prevent attribute from being included in the hash.
@@ -19,73 +20,73 @@ class FruitAttributes:
     char: Tuple[str]
 
 
-def readfiledata(csvfile: Path) -> Mapping[str, Sequence[FruitAttributes]]:
-    """Read and parse CSV file.
+@dataclass
+class FruitBasket:
+    """Process metrics on inventory file."""
 
-    Args:
-        csvfile (Path): Path to CSV file.
+    __fruitdata: Mapping[str, Sequence[FruitAttributes]] = field(
+        default_factory=dict, init=False, repr=False,
+    )
+    csvfile: Union[Path, PathLike]
 
-    Raises:
-        execption: [description]
-        Exception: [description]
+    def __post_init__(self):
+        self.csvfile = Path(self.csvfile)
+        self._load()
 
-    Returns:
-        Mapping[str, Sequence[FruitAttributes]]: Data from CSV file.
-    """
-    logging.debug(csvfile)
-    rtn = defaultdict(list)
-    with csvfile.open() as fid:
-        reader = csv.reader(fid, skipinitialspace=True, strict=True)
-        total_fields = len(next(reader))
-        for line in reader:
-            if not line:
-                continue
-            # if len(line) != total_fields or not line[1].isnumeric():
-            #     # TODO: raise execption for invalid csv
-            #     raise Exception
-            rtn[line[0]].append(FruitAttributes(int(line[1]), tuple(line[2:])))
-        return rtn
+    @property
+    def inventory(self):
+        """Return raw inventory data."""
+        return self.__fruitdata
 
+    @property
+    def total_fruits(self) -> int:
+        """Returns total number of fruits."""
+        return len(list(chain.from_iterable(self.__fruitdata.values())))
 
-def sumallfruit(fruitdata: Mapping[str, Sequence[FruitAttributes]]) -> int:
-    """Calculate total number of fruits.
+    @property
+    def totals_byfruit(self) -> Mapping[str, int]:
+        """Returns totals by fruit in decending order by quanity."""
+        return {
+            fname: len(attribs)
+            for fname, attribs in sorted(
+                self.__fruitdata.items(), reverse=True, key=lambda fdata: len(fdata[1])
+            )
+        }
 
-    Args:
-        fruitdata (Mapping[str, Sequence[FruitAttributes]]): Fruit info
+    @property
+    def oldestfruits(self) -> Tuple[Sequence[str], int]:
+        """Returns oldest fruit(s) and age."""
+        data = defaultdict(set)
+        for fname, fatrs in self.__fruitdata.items():
+            for fatr in fatrs:
+                data[fatr.age].add(fname)
+        age = sorted(data, reverse=True)[0]
+        return data[age], age
 
-    Returns:
-        int: Total number fruits.
-    """
-    return len(list(chain.from_iterable(fruitdata.values())))
+    @property
+    def total_fruittypes(self) -> int:
+        """Returns total number of fruits by type."""
+        return len(self.__fruitdata.keys())
 
+    @property
+    def totals_bychar(self) -> Mapping[Counter[int], str]:
+        """Returns total number of fruits by characteristics ."""
+        return {
+            fname: dict(Counter([fatr.char for fatr in fatrs]))
+            for fname, fatrs in self.__fruitdata.items()
+        }
 
-def sumeachfruit(fruitdata: Mapping[str, Sequence[FruitAttributes]]) -> Mapping[str, int]:
-    return {name: len(attribs) for name, attribs in fruitdata.items()}
-
-
-def oldestfruit(fruitdata: Mapping[str, Sequence[FruitAttributes]]) -> Sequence[str]:
-    """Get name(s) of the oldest fruit.
-
-    Args:
-        fruitdata (Mapping[str, Sequence[FruitAttributes]]): Fruit info
-
-    Returns:
-        Sequence[str]: The oldest fruit(s).
-
-    """
-    data = defaultdict(set)
-    for fruitname, attribs in fruitdata.items():
-        for attrib in attribs:
-            data[attrib.age].add(fruitname)
-    age = sorted(data, reverse=True)[0]
-    return data[age], age
-
-
-def totaltypes(fruitdata: Mapping[str, Sequence[FruitAttributes]]) -> int:
-    return len(fruitdata)
-
-
-def countbychar(fruitdata: Mapping[str, Sequence[FruitAttributes]]):
-    return {
-        name: Counter([attrib.char for attrib in attribs]) for name, attribs in fruitdata.items()
-    }
+    def _load(self) -> None:
+        """Reads CSV data."""
+        logging.debug(self.csvfile)
+        self.__fruitdata = defaultdict(list)
+        with self.csvfile.open() as fid:
+            reader = csv.reader(fid, skipinitialspace=True, strict=True)
+            total_fields = len(next(reader))
+            for line in reader:
+                if not line:
+                    continue
+                # if len(line) != total_fields or not line[1].isnumeric():
+                #     # TODO: raise execption for invalid csv
+                #     raise Exception
+                self.__fruitdata[line[0]].append(FruitAttributes(int(line[1]), tuple(line[2:])))
