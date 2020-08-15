@@ -13,7 +13,8 @@ from typing import Mapping, Sequence, Tuple
 class FruitAttributes:
     """Atributes of fruit."""
 
-    # Char should probably be a set, but the desired report show characteristics order matter.
+    # TODO: Investigate stakeholder requirements, should `char` should be a set instead.
+    # The current desired output shows characteristics order matter.
     age: field(default=int, compare=False, hash=False)
     char: Tuple[str]
 
