@@ -8,6 +8,8 @@ from os import PathLike
 from pathlib import Path
 from typing import Mapping, Sequence, Tuple, Union
 
+from fruit_basket.exceptions import DataError
+
 
 # Note: Setting compare and hash to false does not prevent attribute from being included in the hash.
 @dataclass(eq=True, frozen=True)
@@ -84,11 +86,8 @@ class FruitBasket:
             reader = csv.reader(fid, skipinitialspace=True, strict=True)
             total_fields = len(next(reader))
             for line in reader:
-                if not line:
-                    continue
-                # if len(line) != total_fields or not line[1].isnumeric():
-                #     # TODO: raise execption for invalid csv
-                #     raise Exception
+                if len(line) != total_fields or not line[1].isnumeric():
+                    raise DataError(self.csvfile)
                 self.__fruitdata[line[0]].append(FruitAttributes(int(line[1]), tuple(line[2:])))
 
 

@@ -8,4 +8,10 @@ class FruitBasketError(Exception):
 
     def __init__(self, *args, **kwargs):
         msg = self.fmt.format(*args, **kwargs)
-        super().__init__(self, msg)
+        super().__init__(msg)
+
+
+class DataError(FruitBasketError):
+    """Exception for bad input data."""
+
+    fmt = "ERROR: Bad data in {}."

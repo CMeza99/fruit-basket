@@ -3,6 +3,7 @@ import argparse
 import sys
 
 from fruit_basket import __version__, FruitBasket, report
+from fruit_basket.exceptions import FruitBasketError
 
 
 def _create_parser() -> argparse.ArgumentParser:
@@ -27,7 +28,10 @@ def main():
 
     args = parser.parse_args()
     args.file.close()
-    print(report(FruitBasket(args.file.name)))
+    try:
+        print(report(FruitBasket(args.file.name)))
+    except FruitBasketError as err:
+        sys.exit(err)
 
 
 if __name__ == "__main__":
