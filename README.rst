@@ -20,13 +20,22 @@ CLI
 ---
 .. code-block:: console
 
-   fruit_basket --help
+   usage: fruit_basket [-h] [-v] FILE
+
+   Fruit Basket CLI Help
+
+   positional arguments:
+    FILE           Fruit basket inventory file(csv).
+
+   optional arguments:
+    -h, --help     show this help message and exit
+    -v, --version  show program's version number and exit
 
 Module
 ------
 .. code-block:: console
 
-   python3 -m fruit_basket --help
+   python3 -m fruit_basket [-h] [-v] FILE
 
 To Do:
 ======
