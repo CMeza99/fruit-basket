@@ -28,6 +28,14 @@ Module
 
    python3 -m fruit_basket --help
 
+To Do:
+======
+
+* Tests Fixtures
+   * Setup / Tear Down
+   * Parametrizing
+* Documentation Generation to Github Pages
+
 License
 =======
 Copyright 2020 Carlos Meza
