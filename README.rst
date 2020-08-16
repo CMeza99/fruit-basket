@@ -43,6 +43,8 @@ To Do:
 * Tests Fixtures
    * Setup / Tear Down
    * Parametrizing
+* Test Exceptions
+* Test CLI
 * Documentation Generation to Github Pages
 
 License
