@@ -90,3 +90,37 @@ class FruitBasket:
                 #     # TODO: raise execption for invalid csv
                 #     raise Exception
                 self.__fruitdata[line[0]].append(FruitAttributes(int(line[1]), tuple(line[2:])))
+
+
+def report(basket: FruitBasket) -> str:
+    """Return report data.
+
+    Args:
+        basket (FruitBasket): Inventory data to generate report.
+
+    Returns:
+        str: Report document.
+    """
+    report_lines = deque()
+    report_lines.append(f"Total number of fruit:\n{basket.total_fruits}")
+    report_lines.append(f"Total types of fruit:\n{basket.total_fruittypes}")
+    fruits, age = basket.oldestfruits
+    report_lines.append(
+        "Oldest fruit & age:\n{}".format("\n".join(f"{fname}: {age}" for fname in fruits))
+    )
+    report_lines.append(
+        "The number of each type 1of fruit in descending order:\n{}".format(
+            "\n".join(f"{fname}: {count}" for fname, count in basket.totals_byfruit.items())
+        )
+    )
+    report_lines.append(
+        "The various characteristics (count, color, shape, etc.) of each fruit by type:\n{}".format(
+            "\n".join(
+                f"{count} {fname}: {' '.join(fatr)}"
+                for fname, fatrs in basket.totals_bychar.items()
+                for fatr, count in fatrs.items()
+            )
+        )
+    )
+
+    return "\n\n".join(report_lines)

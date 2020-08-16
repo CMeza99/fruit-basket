@@ -23,3 +23,10 @@ class TestFruitBasket:
         assert basket.totals_bychar["apple"] == Counter(
             {("red", "sweet"): 3, ("yellow", "sweet"): 1, ("green", "tart"): 1},
         )
+
+    def test_report(self):
+        """Crude report check by counting number of lines."""
+        basket = FruitBasket(Path(__file__).parent.joinpath("data", "given.csv"))
+        result = report(basket)
+        print(result)
+        assert result.count("\n") == 28
