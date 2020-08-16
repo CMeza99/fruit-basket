@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from itertools import chain
 from os import PathLike
 from pathlib import Path
-from typing import Mapping, Sequence, Tuple, Union
+from typing import Dict, Sequence, Tuple, Union
 
 from fruit_basket.exceptions import DataError
 
@@ -26,7 +26,7 @@ class FruitAttributes:
 class FruitBasket:
     """Process metrics on inventory file."""
 
-    __fruitdata: Mapping[str, Sequence[FruitAttributes]] = field(
+    __fruitdata: Dict[str, Sequence[FruitAttributes]] = field(
         default_factory=dict, init=False, repr=False,
     )
     csvfile: Union[Path, PathLike]
@@ -46,7 +46,7 @@ class FruitBasket:
         return len(list(chain.from_iterable(self.__fruitdata.values())))
 
     @property
-    def totals_byfruit(self) -> Mapping[str, int]:
+    def totals_byfruit(self) -> Dict[str, int]:
         """Returns totals by fruit in decending order by quanity."""
         return {
             fname: len(attribs)
@@ -71,7 +71,7 @@ class FruitBasket:
         return len(self.__fruitdata.keys())
 
     @property
-    def totals_bychar(self) -> Mapping[str, Mapping[str, int]]:
+    def totals_bychar(self) -> Dict[str, Dict[str, int]]:
         """Returns total number of fruits by characteristics ."""
         return {
             fname: dict(Counter([fatr.char for fatr in fatrs]))
