@@ -71,7 +71,7 @@ class FruitBasket:
         return len(self.__fruitdata.keys())
 
     @property
-    def totals_bychar(self) -> Mapping[Counter[int], str]:
+    def totals_bychar(self) -> Mapping[str, Mapping[str, int]]:
         """Returns total number of fruits by characteristics ."""
         return {
             fname: dict(Counter([fatr.char for fatr in fatrs]))
