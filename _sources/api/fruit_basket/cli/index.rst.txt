@@ -1,0 +1,32 @@
+:mod:`fruit_basket.cli`
+=======================
+
+.. py:module:: fruit_basket.cli
+
+.. autoapi-nested-parse::
+
+   Fruit Basket CLI.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   fruit_basket.cli._create_parser
+   fruit_basket.cli.main
+
+
+.. function:: _create_parser() -> argparse.ArgumentParser
+
+
+.. function:: main()
+
+   Entrypoint for console.
+
+

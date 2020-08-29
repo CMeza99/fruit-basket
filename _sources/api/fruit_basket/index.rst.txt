@@ -1,0 +1,131 @@
+:mod:`fruit_basket`
+===================
+
+.. py:module:: fruit_basket
+
+.. autoapi-nested-parse::
+
+   Fruit Basket top level.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   __main__/index.rst
+   cli/index.rst
+   exceptions/index.rst
+   main/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   fruit_basket.FruitBasket
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   fruit_basket.report
+
+
+.. py:class:: FruitBasket
+
+   Process metrics on inventory file.
+
+   .. attribute:: __fruitdata
+      :annotation: :Dict[str, Sequence[FruitAttributes]]
+
+      
+
+   .. attribute:: csvfile
+      :annotation: :Union[Path, PathLike]
+
+      
+
+   .. method:: __post_init__(self)
+
+
+
+   .. method:: inventory(self)
+      :property:
+
+
+      Return raw inventory data.
+
+
+   .. method:: total_fruits(self)
+      :property:
+
+
+      Returns total number of fruits.
+
+
+   .. method:: totals_byfruit(self)
+      :property:
+
+
+      Returns totals by fruit in decending order by quanity.
+
+
+   .. method:: oldestfruits(self)
+      :property:
+
+
+      Returns oldest fruit(s) and age.
+
+
+   .. method:: total_fruittypes(self)
+      :property:
+
+
+      Returns total number of fruits by type.
+
+
+   .. method:: totals_bychar(self)
+      :property:
+
+
+      Returns total number of fruits by characteristics .
+
+
+   .. method:: _load(self)
+
+
+      Reads CSV data.
+
+
+
+.. function:: report(basket: FruitBasket) -> str
+
+   Return report data.
+
+   :param basket: Inventory data to generate report.
+   :type basket: FruitBasket
+
+   :returns: Report document.
+   :rtype: str
+
+
+.. data:: metadata
+   
+
+   
+
+.. data:: __version__
+   
+
+   
+

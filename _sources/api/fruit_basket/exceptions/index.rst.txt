@@ -1,0 +1,38 @@
+:mod:`fruit_basket.exceptions`
+==============================
+
+.. py:module:: fruit_basket.exceptions
+
+.. autoapi-nested-parse::
+
+   Exceptions module.
+
+
+
+Module Contents
+---------------
+
+.. py:exception:: FruitBasketError(*args, **kwargs)
+
+   Bases: :class:`Exception`
+
+   Base Exception for Fruit Basket.
+
+   .. attribute:: fmt
+      :annotation: = {}
+
+      
+
+
+.. py:exception:: DataError(*args, **kwargs)
+
+   Bases: :class:`fruit_basket.exceptions.FruitBasketError`
+
+   Exception for bad input data.
+
+   .. attribute:: fmt
+      :annotation: = ERROR: Bad data in {}.
+
+      
+
+

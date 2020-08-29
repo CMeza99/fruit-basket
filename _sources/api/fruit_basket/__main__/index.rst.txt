@@ -1,0 +1,28 @@
+:mod:`fruit_basket.__main__`
+============================
+
+.. py:module:: fruit_basket.__main__
+
+.. autoapi-nested-parse::
+
+   Module interface for Fruit Basket.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   fruit_basket.__main__.main
+
+
+.. function:: main()
+
+   Entrypoint to aoad as Python module.
+
+
