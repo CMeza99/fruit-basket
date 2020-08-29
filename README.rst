@@ -7,6 +7,8 @@ Fruit Basket
 
 Generates a report on fruit basket inventory.
 
+Full documentation availabe at https://cmeza99.github.io/fruit-basket/.
+
 Installation
 ============
 .. code-block:: console
@@ -45,7 +47,6 @@ To Do:
    * Parametrizing
 * Test Exceptions
 * Test CLI
-* Documentation Generation to Github Pages
 
 License
 =======
