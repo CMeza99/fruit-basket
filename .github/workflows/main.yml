@@ -51,3 +51,7 @@ jobs:
       with:
         deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         publish_dir: ./docs/_build
+      if: ${{ contains('
+            refs/heads/main
+            refs/heads/master
+          ', github.ref) && github.event_name == 'push' }}
